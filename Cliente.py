@@ -1,13 +1,14 @@
 import struct
 
-class Jugador:
+class Cliente:
     def __init__(self, socket, address, game_controller):
         self.socket = socket
         self.address = address
         self.game_controller = game_controller
+        self.personaje = None # Personaje conectado
 
     def recibir_comandos(self):
-        print("Jugador nuevo: Escuchando datos")
+        print("Cliente nuevo: Escuchando datos")
         while True:
             # Recibe los primeros 4 bytes del mensaje en el socket
             tamaño_paquete = self.socket.recv(4)

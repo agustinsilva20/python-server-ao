@@ -3,7 +3,7 @@ import json
 
 class ControladorJuego:
     def __init__(self):
-        self.jugadores = [] # Arreglo de instancia de Jugadores
+        self.clientes = [] # Arreglo de instancia de Clientes
 
         self.configuracion = {} # Lista de configuracion
         self.hechizos = {} # Lista de hechizos: Dentro tiene objetos, acceder mediante [id][atributo] ejemplo: print(self.hechizos[0]["name"])
@@ -28,11 +28,11 @@ class ControladorJuego:
         print("OK!")
 
 
-    def agregar_jugador(self, jugador):
-        self.jugadores.append(jugador)
+    def agregar_clientes(self, clientes):
+        self.clientes.append(clientes)
 
-    def agregar_comando(self, jugador, comando):
-        self.cola_comandos.put((jugador, comando))
+    def agregar_comando(self, clientes, comando):
+        self.cola_comandos.put((clientes, comando))
 
     def load_json(self, file_name):
         # Retorna una lista con los objetos del JSON [{id:0, name: asd}, {id:1 , name : dsa}]
@@ -54,5 +54,5 @@ class ControladorJuego:
 
     def procesar_comandos(self):
         while True:
-            jugador, comando = self.cola_comandos.get()
+            clientes, comando = self.cola_comandos.get()
             # procesar comando y actualizar estado del juego

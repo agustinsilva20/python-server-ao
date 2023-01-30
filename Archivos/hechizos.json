@@ -1,0 +1,20 @@
+[
+    {
+        "id" : 0,
+        "name": "Apocalipsis",
+        "dmg": 170,
+        "target_players": true,
+        "target_npc": true,
+        "mana": 1150,
+        "min_level": 40
+    },
+    {
+        "id": 1,
+        "name": "Relampago",
+        "dmg": 300,
+        "target_players": false,
+        "target_npc": true,
+        "mana": 150,
+        "min_level": 25
+    }
+]

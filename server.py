@@ -16,6 +16,7 @@ class Server():
     
     def start(self):
         game_controller = ControladorJuego()
+        game_controller.load_world()
 
         # Creo un hilo encargado de procesar los comandos de los clientes 
         comandos_thread = threading.Thread(target=game_controller.procesar_comandos)

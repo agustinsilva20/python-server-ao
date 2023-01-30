@@ -1,9 +1,12 @@
 import queue
 import json
 
+from Personaje import Personaje
+
 class ControladorJuego:
     def __init__(self):
         self.clientes = [] # Arreglo de instancia de Clientes
+        self.server_on = True
 
         self.configuracion = {} # Lista de configuracion
         self.hechizos = {} # Lista de hechizos: Dentro tiene objetos, acceder mediante [id][atributo] ejemplo: print(self.hechizos[0]["name"])
@@ -28,17 +31,16 @@ class ControladorJuego:
         print("OK!")
 
 
-    def agregar_clientes(self, clientes):
+    def agregar_cliente(self, clientes):
         self.clientes.append(clientes)
 
-    def agregar_comando(self, clientes, comando):
-        self.cola_comandos.put((clientes, comando))
+    def agregar_comando(self, cliente, comando): 
+        # Agrega un comando a la 
+        self.cola_comandos.put((cliente, comando))
 
     def load_json(self, file_name):
         # Retorna una lista con los objetos del JSON [{id:0, name: asd}, {id:1 , name : dsa}]
         path = "./Archivos/" + file_name
-        
-        dic_aux ={}
         try:
             with open(path, "r") as file:
                 data = json.load(file)
@@ -49,10 +51,34 @@ class ControladorJuego:
         return data
 
 
+    def get_client_index(self,socket_id):
+        # Dado un socket id -> devuelve un el cliente <object>
+        found_index = -1
+        for i in range (0,len(self.clientes)):
+            if self.clientes[i].soy_socket(socket_id):
+                found_index = self.clientes[i]
+        return found_index
 
-        
+
+    def agregar_personaje(self, comando, cliente):
+        comando = comando.split(";!:")
+        usuario = comando[1]
+        contraseña = comando[2]
+        print("Ingresando personaje en el mundo")
+        print(usuario)
+        print(contraseña)
+        # If user in db
+        # Get user info
+        # Then
+        aux = Personaje()
+        cliente.set_personaje(aux)
+        print("Personaje cargado en el mundo")
+        print(self.clientes[0].get_personaje())     
 
     def procesar_comandos(self):
-        while True:
-            clientes, comando = self.cola_comandos.get()
+        while self.server_on:
+            print("Servidor analizando paquete..")
+            cliente, comando = self.cola_comandos.get() #Recibe el cliente del juego y el comando enviado
+            if str(comando).split(";!:")[0] == "b'login":
+                self.agregar_personaje(str(comando), cliente)
             # procesar comando y actualizar estado del juego

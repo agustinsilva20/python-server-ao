@@ -23,6 +23,15 @@ class Cliente:
 
             print("Paquete recivido: " + str(paquete))
             self.game_controller.agregar_comando(self, paquete)
+    
+    def get_personaje(self):
+        return self.personaje
+    
+    def set_personaje(self, personaje):
+        self.personaje = personaje
+
+    def soy_socket(self,socket_id):
+        return str(socket_id) == str(self.address)
 
     def enviar_datos(self, data):
         tamaño_paquete = struct.pack("!I", len(data))
